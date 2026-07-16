@@ -66,7 +66,7 @@ st.sidebar.info(
     - **Random Forest Regressor** predicts micro seasonal wave variations.
     - **Dynamic Intervals** scale outwards over time to accurately simulate future market uncertainty.
     """
-    
+)
 # Display metrics side-by-side in 3 clean columns
 col1, col2, col3 = st.columns(3)
 col1.metric(label="Total Units (Selected Range)", value=f"{total_sales:,}")
