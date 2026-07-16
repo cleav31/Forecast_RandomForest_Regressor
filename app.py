@@ -46,5 +46,42 @@ ax.axvline(pd.to_datetime('2026-07-01'), color='red', linestyle='--', alpha=0.5)
 ax.legend()
 ax.grid(True, alpha=0.2)
 
+# Calculate quick metrics based on the user's slicer filters
+total_sales = int(filtered_df['Sales'].sum())
+avg_daily_sales = int(filtered_df['Sales'].mean())
+forecast_rows = filtered_df[filtered_df['Type'] == 'Forecast']
+
+# Determine the average prediction uncertainty spread
+if not forecast_rows.empty:
+    avg_spread = int((forecast_rows['Upper_Bound'] - forecast_rows['Lower_Bound']).mean())
+else:
+    avg_spread = 0
+)
+
+st.sidebar.markdown("---")
+st.sidebar.subheader("💡 Model Overview")
+st.sidebar.info(
+    """
+    **Hybrid ML Architecture:**
+    - **Linear Regression** captures the infinite macro growth trend lines.
+    - **Random Forest Regressor** predicts micro seasonal wave variations.
+    - **Dynamic Intervals** scale outwards over time to accurately simulate future market uncertainty.
+    """
+    
+# Display metrics side-by-side in 3 clean columns
+col1, col2, col3 = st.columns(3)
+col1.metric(label="Total Units (Selected Range)", value=f"{total_sales:,}")
+col2.metric(label="Avg Daily Volume", value=f"{avg_daily_sales:,}")
+col3.metric(label="Avg Forecast Variance (±)", value=f"{avg_spread} units")
+
+st.markdown("---") # Visual divider line
+
 # Display chart inside the web app page layout
 st.pyplot(fig)
+
+# Collapsible data table view
+with st.expander("🔍 View Raw Filtered Data Table"):
+    st.dataframe(
+        filtered_df[['Date', 'Product', 'Sales', 'Lower_Bound', 'Upper_Bound', 'Type']],
+        use_container_width=True
+    )
