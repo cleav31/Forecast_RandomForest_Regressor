@@ -56,7 +56,6 @@ if not forecast_rows.empty:
     avg_spread = int((forecast_rows['Upper_Bound'] - forecast_rows['Lower_Bound']).mean())
 else:
     avg_spread = 0
-)
 
 st.sidebar.markdown("---")
 st.sidebar.subheader("💡 Model Overview")
